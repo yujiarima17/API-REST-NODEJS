@@ -7,6 +7,7 @@ export const config : Knex.Config = {
     connection:{
         filename:env.DATABASE_URL
     },
+
 migrations:{
     extension:'ts',
     directory:'./db/migrations'
