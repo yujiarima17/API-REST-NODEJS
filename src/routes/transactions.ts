@@ -1,9 +1,36 @@
 import { FastifyInstance } from "fastify"
+
 import { knex } from '../database'
+
 import crypto from 'node:crypto'
+
 import { z} from 'zod'
+
+// Cookies <--> Formas de manter contexto entre requisições feitas pelo lado do cliente
 export async function transactionsRoutes (app : FastifyInstance){
-    app.post('/', async(request,reply) => {
+
+  app.get('/summary',async ()=>{
+    const summary = await knex('transactions').sum('amount',{as:'amount'}).first()
+    return {summary}
+  })
+
+  app.get('/',async()=>{
+    const transactions = await knex('transactions').select()
+    return {transactions}
+  })
+
+  app.get('/:id',async (request)=>{
+    const getTransactionsParamsSchema = z.object({
+      id:z.string().uuid()
+    })
+    const {id} =getTransactionsParamsSchema.parse(request.params)
+
+    const transaction = await knex('transactions').where('id',id).first()
+
+    return transaction
+  })
+
+  app.post('/', async(request,reply) => {
       // {title,amount,type: credit or debit}
         
         const createTranscationBodySchema = z.object({
