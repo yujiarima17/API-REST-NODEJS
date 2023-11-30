@@ -1,9 +1,12 @@
-# NodeJS specific #
-.nyc_output/
-coverage/
-node_modules/
-npm-debug.log
-package-lock.json
-test/*.log
-db/app.db
-db/test.db
+# Dependencies
+node_modules
+
+# Database
+db/*.db
+
+# Environment
+.env
+.env.test
+
+# Build
+build
