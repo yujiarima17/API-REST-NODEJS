@@ -40,7 +40,7 @@ export async function transactionsRoutes (app : FastifyInstance){
     const {sessionId} = request.cookies
     const transaction = await knex('transactions').where({id:id,session_id:sessionId}).first()
 
-    return transaction
+    return {transaction}
   })
 
  app.post('/', async(request,reply) => {
