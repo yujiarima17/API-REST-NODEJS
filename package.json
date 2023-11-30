@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "vitest",
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src -e .ts --fix",
     "migrate:create": "npm run knex -- migrate:make --migrations-directory ./src/db/migrations -x ts",
-    "knex": "node --import tsx ./node_modules/knex/bin/cli.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "knex": "node --import tsx ./node_modules/knex/bin/cli.js"
   },
   "keywords": [],
   "author": "",
@@ -16,10 +16,13 @@
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
     "@types/node": "^20.10.0",
+    "@types/supertest": "^2.0.16",
     "eslint": "^8.54.0",
+    "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "tsx": "^4.5.0",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "vitest": "^0.34.6"
   },
   "dependencies": {
     "@fastify/cookie": "^9.2.0",

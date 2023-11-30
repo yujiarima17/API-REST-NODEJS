@@ -5,7 +5,7 @@ import { knex } from '../database'
 import { randomUUID } from 'node:crypto'
 
 import { z} from 'zod'
-import { up } from "../../db/migrations/20231127203252_add-session-id-to-transaction"
+
 import { checkSessionIdExists } from "../middlewares/check-session-id-exists"
 
 // Cookies <--> Formas de manter contexto entre requisições feitas pelo lado do cliente
@@ -16,6 +16,7 @@ export async function transactionsRoutes (app : FastifyInstance){
 
   })
   app.get('/summary',{preHandler:[checkSessionIdExists]},async (request)=>{
+
     const {sessionId} = request.cookies
     const summary = await knex('transactions').where('session_id',sessionId).sum('amount',{as:'amount'}).first()
     
@@ -23,14 +24,15 @@ export async function transactionsRoutes (app : FastifyInstance){
   })
 
   app.get('/',{preHandler:[checkSessionIdExists]},async(request,reply)=>{
+
     const {sessionId }= request.cookies
-    
     const transactions = await knex('transactions').where('session_id',sessionId).select()
     
     return {transactions}
   })
 
   app.get('/:id',{preHandler:[checkSessionIdExists]},async (request)=>{
+    
     const getTransactionsParamsSchema = z.object({
       id:z.string().uuid()
     })
